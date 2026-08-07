@@ -9,7 +9,7 @@ public class DifferentAccountsValidation implements TransactionValidator {
 		if(transactionRequest.getToAccount() == null || transactionRequest.getFromAccount() == null)
 			return false;
 			
-		if(transactionRequest.getFromAccount() == transactionRequest.getToAccount())
+		if(transactionRequest.getFromAccount().equals(transactionRequest.getToAccount()))
 			return false;
 		
 		return true;
