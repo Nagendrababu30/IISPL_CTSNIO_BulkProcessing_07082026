@@ -1,0 +1,19 @@
+package com.iispl.service;
+
+import java.math.BigDecimal;
+
+import com.iispl.model.TransactionRequest;
+import com.iispl.model.TransactionResult;
+import com.iispl.nio.NioXmlReader;
+
+public interface TransactionService {
+	
+	public void processTransactionFile(NioXmlReader nioXmlReader);
+
+	public TransactionResult validate(TransactionRequest request);
+	
+	public boolean debitAmount(String accountNumber, BigDecimal amount);
+	
+	public boolean creditAmount(String accountNumber, BigDecimal amount);
+	
+}
