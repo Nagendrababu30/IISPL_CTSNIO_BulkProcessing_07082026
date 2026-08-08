@@ -6,8 +6,13 @@ public class TransactionIdValidation implements TransactionValidator {
 
 	@Override
 	public boolean validate(TransactionRequest transactionRequest) {
-		// TODO Auto-generated method stub
-		return false;
+		if(transactionRequest.getTransactionId().equals(null)) {
+			return false;
+		}
+		else {
+			 return true;
+		}
+	 
 	}
 
 }
