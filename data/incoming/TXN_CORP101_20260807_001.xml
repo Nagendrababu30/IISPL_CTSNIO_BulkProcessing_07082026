@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkTransactions batchId="BATCH-20260807-001" corporateId="CORP101" createdDate="2026-08-07">
+
+    <transaction>
+        <transactionId>TXN1001</transactionId>
+        <fromAccount>100001</fromAccount>
+        <toAccount>200001</toAccount>
+        <type>FUND_TRANSFER</type>
+        <amount>15000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1002</transactionId>
+        <fromAccount>100001</fromAccount>
+        <toAccount>300001</toAccount>
+        <type>SALARY_CREDIT</type>
+        <amount>45000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1003</transactionId>
+        <fromAccount>100001</fromAccount>
+        <toAccount>400001</toAccount>
+        <type>UTILITY_PAYMENT</type>
+        <amount>2500.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1004</transactionId>
+        <fromAccount>100002</fromAccount>
+        <toAccount>200002</toAccount>
+        <type>FUND_TRANSFER</type>
+        <amount>32000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1005</transactionId>
+        <fromAccount>100002</fromAccount>
+        <toAccount>300002</toAccount>
+        <type>SALARY_CREDIT</type>
+        <amount>55000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1006</transactionId>
+        <fromAccount>100003</fromAccount>
+        <toAccount>400002</toAccount>
+        <type>UTILITY_PAYMENT</type>
+        <amount>4800.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1007</transactionId>
+        <fromAccount>100003</fromAccount>
+        <toAccount>200003</toAccount>
+        <type>FUND_TRANSFER</type>
+        <amount>27500.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1008</transactionId>
+        <fromAccount>100004</fromAccount>
+        <toAccount>300003</toAccount>
+        <type>SALARY_CREDIT</type>
+        <amount>62000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1009</transactionId>
+        <fromAccount>100004</fromAccount>
+        <toAccount>400003</toAccount>
+        <type>UTILITY_PAYMENT</type>
+        <amount>3500.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1010</transactionId>
+        <fromAccount>100005</fromAccount>
+        <toAccount>200004</toAccount>
+        <type>FUND_TRANSFER</type>
+        <amount>18500.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1011</transactionId>
+        <fromAccount>100005</fromAccount>
+        <toAccount>300004</toAccount>
+        <type>SALARY_CREDIT</type>
+        <amount>72000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1012</transactionId>
+        <fromAccount>100006</fromAccount>
+        <toAccount>400004</toAccount>
+        <type>UTILITY_PAYMENT</type>
+        <amount>6200.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1013</transactionId>
+        <fromAccount>100006</fromAccount>
+        <toAccount>200005</toAccount>
+        <type>FUND_TRANSFER</type>
+        <amount>41000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1014</transactionId>
+        <fromAccount>100007</fromAccount>
+        <toAccount>300005</toAccount>
+        <type>SALARY_CREDIT</type>
+        <amount>38000.00</amount>
+    </transaction>
+
+    <transaction>
+        <transactionId>TXN1015</transactionId>
+        <fromAccount>100007</fromAccount>
+        <toAccount>400005</toAccount>
+        <type>UTILITY_PAYMENT</type>
+        <amount>2900.00</amount>
+    </transaction>
+
+</bulkTransactions>
