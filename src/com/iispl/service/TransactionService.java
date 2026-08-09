@@ -8,7 +8,7 @@ import com.iispl.nio.NioXmlReader;
 
 public interface TransactionService {
 	
-	public void processTransactionFile(NioXmlReader nioXmlReader);
+	public void processTransaction(TransactionRequest request);
 
 	public TransactionResult validate(TransactionRequest request);
 	

@@ -6,9 +6,13 @@ import com.iispl.model.Account;
 import com.iispl.model.TransactionRequest;
 
 public class  SufficientFundValidator implements TransactionValidator {
-     AccountDAO accountDao=new AccountDAOImpl();
+     AccountDAO accountDao=null;
+     
+     public SufficientFundValidator(AccountDAO accountDAO) {
+    	 this.accountDao = accountDAO;
+     }
+     
 	@Override
-	
 	public boolean validate(TransactionRequest transactionRequest) {
 	Account account=	accountDao.getAccountByNumber( transactionRequest.getTransactionId());
 	 if(account.getAvailableBalance().compareTo(transactionRequest.getTransactionAmount())<0) {
