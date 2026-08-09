@@ -11,15 +11,31 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import com.iispl.enums.TransactionStatus;
 import com.iispl.enums.TransactionType;
 import com.iispl.model.FileProcessingSummary;
 import com.iispl.model.TransactionRequest;
+import com.iispl.model.TransactionResult;
+import com.iispl.service.TransactionService;
+import com.iispl.service.TransactionServiceImpl;
 
 public class NioXmlReader {
 
-	FileProcessingSummary summary;
+	static FileProcessingSummary summary;
+	
+	TransactionService txnService=new TransactionServiceImpl();
+	
+	
+	
+	
 
 	public FileProcessingSummary readXml(Path path) throws IOException, XMLStreamException {
+		
+		long  totalTransactions=0;
+		long  successTransactions=0;
+		long  failedTransactions=0;
+
+		
 
 		summary = new FileProcessingSummary(null, path.getFileName(), 0, 0, 0);
 
@@ -88,24 +104,31 @@ public class NioXmlReader {
 
 				// END ELEMENT
 				else if (event == XMLStreamConstants.END_ELEMENT) {
+					totalTransactions++;
+					
 
 					// </transaction>
 					if ("transaction".equals(reader.getLocalName())) {
 
-						System.out.println(transaction);
-
-						// Send one transaction to service
-//	                    transactionService.processTransaction(transaction);
+						TransactionResult txnResult =txnService.validate(transaction);
+//						if(txnResult.getStatus().equals(TransactionStatus.SUCCESS)) {
+//							successTransactions++;
+//						}else {
+//							failedTransactions++;
+//						}
 
 						transaction = null;
 					}
 				}
 			}
+			summary.setTotalRecords(totalTransactions);
 
 			reader.close();
 		}
+		System.out.println(summary);
 
 		return summary;
 	}
 
 }
+//

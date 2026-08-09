@@ -6,13 +6,12 @@ public class FileProcessingSummary {
 
 	private String batchId;
 	private Path fileName;
-	private int totalRecords;
-	private int failureRecords;
-	private int successfullRecords;
+	private long totalRecords;
+	private long failureRecords;
+	private long successfullRecords;
 
-	public FileProcessingSummary(String batchId, Path fileName, int totalRecords, int failureRecords,
-			int successfullRecords) {
-		super();
+	public FileProcessingSummary(String batchId, Path fileName, long totalRecords, long failureRecords,
+			long successfullRecords) {
 		this.batchId = batchId;
 		this.fileName = fileName;
 		this.totalRecords = totalRecords;
@@ -36,28 +35,36 @@ public class FileProcessingSummary {
 		this.fileName = fileName;
 	}
 
-	public int getTotalRecords() {
+	public long getTotalRecords() {
 		return totalRecords;
 	}
 
-	public void setTotalRecords(int totalRecords) {
+	public void setTotalRecords(long totalRecords) {
 		this.totalRecords = totalRecords;
 	}
 
-	public int getFailureRecords() {
+	public long getFailureRecords() {
 		return failureRecords;
 	}
 
-	public void setFailureRecords(int failureRecords) {
+	public void setFailureRecords(long failureRecords) {
 		this.failureRecords = failureRecords;
 	}
 
-	public int getSuccessfullRecords() {
+	public long getSuccessfullRecords() {
 		return successfullRecords;
 	}
 
-	public void setSuccessfullRecords(int successfullRecords) {
+	public void setSuccessfullRecords(long successfullRecords) {
 		this.successfullRecords = successfullRecords;
 	}
+
+	@Override
+	public String toString() {
+		return "FileProcessingSummary [batchId=" + batchId + ", fileName=" + fileName + ", totalRecords=" + totalRecords
+				+ ", failureRecords=" + failureRecords + ", successfullRecords=" + successfullRecords + "]";
+	}
+	
+	
 
 }
