@@ -71,4 +71,13 @@ public class TransactionRequest {
 		this.transactionType = transactionType;
 	}
 
+	@Override
+	public String toString() {
+		return "TransactionRequest [transactionId=" + transactionId + ", batchId=" + batchId + ", fromAccount="
+				+ fromAccount + ", toAccount=" + toAccount + ", transactionAmount=" + transactionAmount
+				+ ", transactionType=" + transactionType + "]";
+	}
+	
+	
+
 }
