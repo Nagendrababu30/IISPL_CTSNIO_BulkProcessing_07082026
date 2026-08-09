@@ -14,6 +14,7 @@ public class CTSBatchApplication {
 	public static void main(String[] args) {
 		
 		fileIntakeService.createDataFolders();
+		fileIntakeService.validate();
 
 	}
 
