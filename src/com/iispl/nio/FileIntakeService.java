@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamException;
 
 import com.iispl.exceptions.InvalidFileNameException;
 import com.iispl.exceptions.InvalidInputFileException;
+import com.iispl.model.FileProcessingSummary;
 
 public class FileIntakeService {
 
@@ -21,6 +22,8 @@ public class FileIntakeService {
 	private Path archiveFolder = Paths.get("data", "archive");
 	private Path rejectedFolder = Paths.get("data", "rejected");
 	NioXmlReader nioXmlReader = new NioXmlReader();
+	ResponseFileWriter fileWriter = null;
+	ArchiveService archiveService = new ArchiveService();
 
 	public void createDataFolders() {
 
@@ -31,6 +34,7 @@ public class FileIntakeService {
 			Files.createDirectories(outputFolder);
 			Files.createDirectories(archiveFolder);
 			Files.createDirectories(rejectedFolder);
+			
 
 		} catch (IOException exception) {
 			exception.printStackTrace();
@@ -51,11 +55,12 @@ public class FileIntakeService {
 					if (isRegularFile(attributes) && isValidFileName(file.getFileName().toString())) {
 
 						Path processingFile = moveFileToProcessing(file);
+						fileWriter = new ResponseFileWriter(outputFolder, rejectedFolder, file.getFileName().toString()) ;
 
 						System.out.println("Processing file: " + processingFile);
 
-						nioXmlReader.readXml(processingFile);
-						;
+						FileProcessingSummary fileProcessingSummary = nioXmlReader.readXml(processingFile);
+						fileWriter.writeFileSummary(fileProcessingSummary);
 					}
 
 				} catch (InvalidInputFileException | InvalidFileNameException exception) {
@@ -63,6 +68,8 @@ public class FileIntakeService {
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
+				
+				archiveService.moveFileToArchive(file, archiveFolder, processingFolder);
 
 			}
 
