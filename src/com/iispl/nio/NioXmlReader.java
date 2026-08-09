@@ -16,109 +16,96 @@ import com.iispl.model.FileProcessingSummary;
 import com.iispl.model.TransactionRequest;
 
 public class NioXmlReader {
-	
+
 	FileProcessingSummary summary;
 
-	public FileProcessingSummary readXml(Path path)
-	        throws IOException, XMLStreamException {
+	public FileProcessingSummary readXml(Path path) throws IOException, XMLStreamException {
 
-	   summary = new FileProcessingSummary(null, path.getFileName() , 0, 0, 0);
+		summary = new FileProcessingSummary(null, path.getFileName(), 0, 0, 0);
 
-	    XMLInputFactory factory = XMLInputFactory.newInstance();
+		XMLInputFactory factory = XMLInputFactory.newInstance();
 
-	    try (InputStream inputStream = Files.newInputStream(path)) {
+		try (InputStream inputStream = Files.newInputStream(path)) {
 
-	        XMLStreamReader reader =
-	                factory.createXMLStreamReader(inputStream);
+			XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
 
-	        TransactionRequest transaction = null;
+			TransactionRequest transaction = null;
+			String batchId=null;
 
-	        while (reader.hasNext()) {
+			while (reader.hasNext()) {
 
-	            int event = reader.next();
+				int event = reader.next();
 
-	            // START ELEMENT
-	            if (event == XMLStreamConstants.START_ELEMENT) {
+				// START ELEMENT
+				if (event == XMLStreamConstants.START_ELEMENT) {
 
-	                String element = reader.getLocalName();
+					String element = reader.getLocalName();
+					
 
-	                // <bulkTransactions batchId="" corporateId="" createdDate="">
-	                if ("bulkTransactions".equals(element)) {
+					// <bulkTransactions batchId="" corporateId="" createdDate="">
+					if ("bulkTransactions".equals(element)) {
 
-	                    summary.setBatchId(
-	                            reader.getAttributeValue(null, "batchId"));
-	                }
+						batchId = reader.getAttributeValue(null, "batchId");
 
-	                // <transaction>
-	                else if ("transaction".equals(element)) {
+						summary.setBatchId(batchId);
+					}
 
-	                    transaction = new TransactionRequest(
-	                            null,
-	                            null,
-	                            null,
-	                            null,
-	                            null,
-	                            null);
-	                }
+					// <transaction>
+					else if ("transaction".equals(element)) {
 
-	                // Transaction fields
-	                else if (transaction != null) {
+						transaction = new TransactionRequest(null, batchId, null, null, null, null);
+					}
 
-	                    switch (element) {
+					// Transaction fields
+					else if (transaction != null) {
 
-	                        case "transactionId":
-	                            transaction.setTransactionId(
-	                                    reader.getElementText());
-	                            break;
+						switch (element) {
 
-	                        case "fromAccount":
-	                            transaction.setFromAccount(
-	                                    reader.getElementText());
-	                            break;
+						case "transactionId":
+							transaction.setTransactionId(reader.getElementText());
+							break;
 
-	                        case "toAccount":
-	                            transaction.setToAccount(
-	                                    reader.getElementText());
-	                            break;
+						case "fromAccount":
+							transaction.setFromAccount(reader.getElementText());
+							break;
 
-	                        case "type":
-	                            String type = reader.getElementText().trim();
+						case "toAccount":
+							transaction.setToAccount(reader.getElementText());
+							break;
 
-	                            transaction.setTransactionType(
-	                                    TransactionType.valueOf(type)
-	                            );
-	                            break;
+						case "type":
+							String type = reader.getElementText().trim();
 
-	                        case "amount":
-	                            transaction.setTransactionAmount(
-	                                   new BigDecimal(
-	                                            reader.getElementText()));
-	                            break;
-	                    }
-	                }
-	            }
+							transaction.setTransactionType(TransactionType.valueOf(type));
+							break;
 
-	            // END ELEMENT
-	            else if (event == XMLStreamConstants.END_ELEMENT) {
+						case "amount":
+							transaction.setTransactionAmount(new BigDecimal(reader.getElementText()));
+							break;
+						}
+					}
+				}
 
-	                // </transaction>
-	                if ("transaction".equals(reader.getLocalName())) {
-	                	
-	                	System.out.println(transaction.toString());
+				// END ELEMENT
+				else if (event == XMLStreamConstants.END_ELEMENT) {
 
-	                    // Send one transaction to service
+					// </transaction>
+					if ("transaction".equals(reader.getLocalName())) {
+
+						System.out.println(transaction);
+
+						// Send one transaction to service
 //	                    transactionService.processTransaction(transaction);
 
-	                    transaction = null;
-	                }
-	            }
-	        }
+						transaction = null;
+					}
+				}
+			}
 
-	        reader.close();
-	    }
+			reader.close();
+		}
 
-	    return summary;
+		return summary;
 	}
-	
-	
+
 }
