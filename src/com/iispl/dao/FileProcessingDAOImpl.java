@@ -22,9 +22,9 @@ public class FileProcessingDAOImpl implements FileProcessingDAO {
 
 	        preparedStatement.setString(1, fileProcessingSummary.getBatchId());
 	        preparedStatement.setString(2, fileProcessingSummary.getFileName().toString());
-	        preparedStatement.setInt(3, fileProcessingSummary.getTotalRecords());
-	        preparedStatement.setInt(4, fileProcessingSummary.getFailureRecords());
-	        preparedStatement.setInt(5, fileProcessingSummary.getSuccessfullRecords());
+	        preparedStatement.setLong(3, fileProcessingSummary.getTotalRecords());
+	        preparedStatement.setLong(4, fileProcessingSummary.getFailureRecords());
+	        preparedStatement.setLong(5, fileProcessingSummary.getSuccessfullRecords());
 
 	        int rows = preparedStatement.executeUpdate();
 
