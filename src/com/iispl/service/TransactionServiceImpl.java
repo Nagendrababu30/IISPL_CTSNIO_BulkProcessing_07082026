@@ -164,4 +164,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return 0;
 	}
 
+	@Override
+	public void saveTransaction(TransactionRequest request, TransactionResult result) {
+		// TODO Auto-generated method stub
+		transactionDAO.saveTransaction(request, result);
+	}
+
 }
