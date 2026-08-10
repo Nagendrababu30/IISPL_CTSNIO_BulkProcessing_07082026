@@ -1,0 +1,17 @@
+
+<Transaction>
+<TransactionRequest>
+<transactionId>TXN1012</transactionId>
+        <batchId>BATCH-20260807-001</batchId>
+        <fromAccount>100006</fromAccount>
+        <toAccount>400004</toAccount>
+<transactionAmount>6200.00</transactionAmount>
+<transactionType>UTILITY_PAYMENT</transactionType>
+</TransactionRequest>
+<TransactionResult>
+         <sourceFile>data/output/RESP_Success_TXN_CORP101_20260807_001.xml</sourceFile>
+         <remarks>Sucessfull transaction.</remarks>
+         <status>SUCCESS</status>
+<processingDate>2026-08-10</processingDate>
+</TransactionResult>
+</Transaction>

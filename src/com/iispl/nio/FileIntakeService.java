@@ -24,6 +24,7 @@ public class FileIntakeService {
 	NioXmlReader nioXmlReader = null;
 	ResponseFileWriter fileWriter = null;
 	ArchiveService archiveService = new ArchiveService();
+	FileProcessingSummary fileProcessingSummary = null;
 
 	public void createDataFolders() {
 
@@ -42,7 +43,7 @@ public class FileIntakeService {
 
 	}
 
-	public void validate() {
+	public FileProcessingSummary validate() {
 
 		try {
 			DirectoryStream<Path> stream = Files.newDirectoryStream(incomingFolder, "*.xml");
@@ -62,7 +63,7 @@ public class FileIntakeService {
 						System.out.println("Processing file: " + processingFile);
 						nioXmlReader = new NioXmlReader(fileWriter);
 
-						FileProcessingSummary fileProcessingSummary = nioXmlReader.parseXml(processingFile);
+						fileProcessingSummary = nioXmlReader.parseXml(processingFile);
 						fileWriter.writeFileSummary(fileProcessingSummary);
 					}
 
@@ -82,6 +83,8 @@ public class FileIntakeService {
 
 			e.printStackTrace();
 		}
+		
+		return fileProcessingSummary;
 
 	}
 
