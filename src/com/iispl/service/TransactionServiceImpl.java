@@ -37,7 +37,6 @@ public class TransactionServiceImpl implements TransactionService {
 	public TransactionServiceImpl() {
 		accountValidationRules = new ArrayList<AccountValidator>();
 		transactionValidationRules = new ArrayList<TransactionValidator>();
-		
 		accountValidationRules.add(new AccountExistsValidation());
 		accountValidationRules.add(new AccountStatusValidation());
 		transactionValidationRules.add(new DifferentAccountsValidation());
@@ -139,8 +138,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public boolean creditAmount(String accountNumber, BigDecimal amount) {
-		// TODO Auto-generated method stub
-		return false;
+		Account account = accountDAO.getAccountByNumber(accountNumber);
+		BigDecimal newAmount = account.getAvailableBalance().add(amount);
+		account.setAvailableBalance(newAmount);
+		accountDAO.updateBalance(accountNumber, newAmount);
+		return true;
 	}
 	
 	private int validateAccount(String accountNumber) {
