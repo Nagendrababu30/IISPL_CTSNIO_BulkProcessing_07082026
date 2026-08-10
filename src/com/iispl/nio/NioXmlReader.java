@@ -114,11 +114,13 @@ public class NioXmlReader {
 					totalTransactions++;
 					
 					TransactionResult txnResult = txnService.validate(transaction);
-					System.out.println(transaction);
+					System.out.print(transaction.getTransactionId() + " : " + txnResult.getStatus());
 						if(txnResult.getStatus().equals(TransactionStatus.SUCCESS)) {
+							System.out.println();
 							fileWriter.writeSuccessTransaction(transaction, txnResult);
 							successTransactions++;
 						}else {
+							System.out.println("(" + txnResult.getRemarks() + ")");
 							fileWriter.writeFailedTransaction(transaction, txnResult);
 							failedTransactions++;
 						}
@@ -133,7 +135,6 @@ public class NioXmlReader {
 
 
 		reader.close();
-		System.out.println(summary);
 
 		return summary;
 	}

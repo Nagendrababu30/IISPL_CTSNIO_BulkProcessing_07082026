@@ -1,0 +1,17 @@
+<Transaction>
+<TransactionRequest>
+<transactionId>TXN1015</transactionId>
+<batchId>BATCH-20260807-001</batchId>
+ <fromAccount>100007</fromAccount>
+ <toAccount>400005</toAccount>
+<transactionAmount>2900.00</transactionAmount>
+<transactionType>UTILITY_PAYMENT</transactionType>
+</TransactionRequest>
+<TransactionResult>
+<transactionId>TXN1015</transactionId>
+<sourceFile>data/rejected/RESP_Failed_TXN_CORP101_20260807_001.xml</sourceFile>
+<remarks>Insufficient balance.</remarks>
+<status>FAILED</status>
+ <processingDate>2026-08-10</processingDate>
+ </TransactionResult>
+</Transaction>
