@@ -24,7 +24,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 			if (rs.next()) {
 
-				Account account = null;
+				Account account = new Account(null, null, null, null) ;
 
 				account.setAccountNumber(rs.getString("account_number"));
 

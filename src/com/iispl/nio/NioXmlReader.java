@@ -24,18 +24,12 @@ public class NioXmlReader {
 	static FileProcessingSummary summary;
 	
 	TransactionService txnService=new TransactionServiceImpl();
-	
-	
-	
-	
 
 	public FileProcessingSummary readXml(Path path) throws IOException, XMLStreamException {
 		
 		long  totalTransactions=0;
 		long  successTransactions=0;
 		long  failedTransactions=0;
-
-		
 
 		summary = new FileProcessingSummary(null, path.getFileName(), 0, 0, 0);
 
