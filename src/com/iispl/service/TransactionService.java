@@ -16,4 +16,6 @@ public interface TransactionService {
 	
 	public boolean creditAmount(String accountNumber, BigDecimal amount);
 	
+	public void saveTransaction(TransactionRequest request, TransactionResult result);
+	
 }

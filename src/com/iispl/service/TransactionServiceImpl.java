@@ -159,4 +159,9 @@ public class TransactionServiceImpl implements TransactionService {
 		return 0;
 	}
 
+	@Override
+	public void saveTransaction(TransactionRequest request, TransactionResult result) {
+		transactionDAO.saveTransaction(request, result);
+	}
+
 }
