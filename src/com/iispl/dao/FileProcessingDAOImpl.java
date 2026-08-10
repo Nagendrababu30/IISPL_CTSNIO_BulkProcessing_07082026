@@ -14,7 +14,7 @@ public class FileProcessingDAOImpl implements FileProcessingDAO {
 		// TODO Auto-generated method stub
 		
 		String sql = "INSERT INTO file_processing_summary "
-	            + "(batch_id, file_name, total_records, failure_records, successful_records) "
+	            + "(batch_id, file_name, total_records, failure_records, successfull_records) "
 	            + "VALUES (?, ?, ?, ?, ?)";
 
 	    try (Connection connection = ConnectionPool.getDataSource().getConnection();

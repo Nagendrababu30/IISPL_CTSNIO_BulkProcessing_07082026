@@ -104,6 +104,7 @@ public class NioXmlReader {
 					// </transaction>
 					if ("transaction".equals(reader.getLocalName())) {
 
+//						System.out.println(transaction);
 						TransactionResult txnResult =txnService.validate(transaction);
 //						if(txnResult.getStatus().equals(TransactionStatus.SUCCESS)) {
 //							successTransactions++;
