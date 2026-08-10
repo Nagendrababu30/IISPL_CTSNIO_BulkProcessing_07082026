@@ -130,8 +130,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public boolean debitAmount(String accountNumber, BigDecimal amount) {
-		// TODO Auto-generated method stub
-		return false;
+	Account account= accountDAO.getAccountByNumber(accountNumber);
+	BigDecimal updatedBalance= account.getAvailableBalance().subtract(amount);
+		
+	return	accountDAO.updateBalance(accountNumber, updatedBalance);
+		 
 	}
 
 	@Override
