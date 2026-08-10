@@ -13,6 +13,10 @@ public class CTSBatchApplication {
 	
 	public static void main(String[] args) {
 		
+		System.out.println("------------------------------------------");
+		System.out.println("CTS BULK TRANSACTION PROCESSING SYSTEM");
+		System.out.println("------------------------------------------");
+		
 		fileIntakeService.createDataFolders();
 		fileIntakeService.validate();
 
