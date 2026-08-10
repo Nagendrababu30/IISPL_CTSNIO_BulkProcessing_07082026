@@ -59,7 +59,7 @@ public class FileIntakeService {
 
 						System.out.println("Processing file: " + processingFile);
 
-						FileProcessingSummary fileProcessingSummary = nioXmlReader.readXml(processingFile);
+						FileProcessingSummary fileProcessingSummary = nioXmlReader.parseXml(processingFile);
 						fileWriter.writeFileSummary(fileProcessingSummary);
 					}
 
