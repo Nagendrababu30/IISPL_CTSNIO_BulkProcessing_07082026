@@ -13,7 +13,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public boolean saveTransaction(TransactionRequest request, TransactionResult result) {
 		String insertSql = """
-				INSERT INTO transaction
+				INSERT INTO transactions
 				(transaction_id, batch_id, from_account, to_account,
 				 transaction_amount, transaction_type, source_file,
 				 remarks, status, processing_date)
