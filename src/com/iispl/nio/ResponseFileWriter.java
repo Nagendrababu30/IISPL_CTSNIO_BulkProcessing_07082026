@@ -3,17 +3,16 @@ package com.iispl.nio;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import com.iispl.model.FileProcessingSummary;
 import com.iispl.model.TransactionRequest;
 import com.iispl.model.TransactionResult;
 
 public class ResponseFileWriter {
-	
+
 	Path outputFolder;
 	Path rejectedFolder;
 	String fileName;
-	
+
 	public ResponseFileWriter(Path outputFolder, Path rejectedFolder, String fileName) {
 		this.outputFolder = outputFolder;
 		this.rejectedFolder = rejectedFolder;
@@ -21,8 +20,80 @@ public class ResponseFileWriter {
 	}
 
 	public void writeSuccessTransaction(TransactionRequest transactionRequest, TransactionResult transactionResult) {
-		
+		try {
+
+			String responseFileName = "RESP_Success_" + fileName;
+
+			Path responseFile = outputFolder.resolve(responseFileName);
+
+			transactionResult.setSourceFile(responseFile);
+
+			StringBuilder xml = new StringBuilder();
+
+			xml.append("<?xml version=\"1.0\"encoding=\"UTF-8\"?>");
+
+			xml.append("\n<Transaction>\n");
+
+			xml.append("<TransactionRequest>\n");
+
+			xml.append("<transactionId>").append(transactionRequest.getTransactionId())
+
+					.append("</transactionId>\n");
+
+			xml.append("        <batchId>").append(transactionRequest.getBatchId())
+
+					.append("</batchId>\n");
+
+			xml.append("        <fromAccount>").append(transactionRequest.getFromAccount())
+
+					.append("</fromAccount>\n");
+
+			xml.append("        <toAccount>").append(transactionRequest.getToAccount())
+
+					.append("</toAccount>\n");
+
+			xml.append("<transactionAmount>").append(transactionRequest.getTransactionAmount())
+
+					.append("</transactionAmount>\n");
+
+			xml.append("<transactionType>").append(transactionRequest.getTransactionType())
+
+					.append("</transactionType>\n");
+
+			xml.append("</TransactionRequest>\n");
+
+			xml.append("<TransactionResult>\n");
+
+			xml.append("         <sourceFile>").append(transactionResult.getSourceFile())
+
+					.append("</sourceFile>\n");
+
+			xml.append("         <remarks>").append(transactionResult.getRemarks())
+
+					.append("</remarks>\n");
+
+			xml.append("         <status>").append(transactionResult.getStatus())
+
+					.append("</status>\n");
+
+			xml.append("<processingDate>").append(transactionResult.getProcessingDate())
+
+					.append("</processingDate>\n");
+
+			xml.append("</TransactionResult>\n");
+
+			xml.append("</Transaction>");
+
+			Files.writeString(responseFile, xml.toString());
+
+		}
+
+		catch (IOException ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
+
 	
 	public void writeFailedTransaction(TransactionRequest transactionRequest, TransactionResult transactionResult) throws IOException {
 	    Files.createDirectories(rejectedFolder);
@@ -68,7 +139,7 @@ public class ResponseFileWriter {
 
 		Files.writeString(rejectedFile, xml.toString());
 	}
-	
+
 	public void writeFileSummary(FileProcessingSummary fileProcessingSummary) {
 		try {
 			   Path summaryFile = outputFolder.resolve("SUMMARY_" + fileName +".xml");
@@ -90,5 +161,5 @@ public class ResponseFileWriter {
 			   
 			  }
 	}
-	
+
 }
