@@ -105,8 +105,11 @@ public class ResponseFileWriter {
 
 	
 	public void writeFailedTransaction(TransactionRequest transactionRequest, TransactionResult transactionResult) throws IOException {
-	    Files.createDirectories(rejectedFolder);
-		Path rejectedFile = rejectedFolder.resolve(fileName);
+		
+		String responseFileName = "RESP_Failed_" + fileName;
+		Path rejectedFile = rejectedFolder.resolve(responseFileName);
+		
+		
 		transactionResult.setSourceFile(rejectedFile);
 
 		StringBuilder xml = new StringBuilder();
@@ -158,11 +161,11 @@ public class ResponseFileWriter {
 			   
 			   StringBuilder sb = new StringBuilder();
 			   sb.append("<FileProcessingSummary>\n");
-			   sb.append("<\t<batchId>").append(fileProcessingSummary.getBatchId()).append("</batchId>\n");
+			   sb.append("<batchId>").append(fileProcessingSummary.getBatchId()).append("</batchId>\n");
 			   sb.append("<fileName>").append(fileProcessingSummary.getFileName()).append("</fileName>\n");
 			   sb.append("<totalRecords>").append(fileProcessingSummary.getTotalRecords()).append("</totalRecords>\n");
 			   sb.append("<failureRecords>").append(fileProcessingSummary.getFailureRecords()).append("</failureRecords>\n");
-			   sb.append("<successfulRecords>").append(fileProcessingSummary.getSuccessfullRecords()).append("</successRecords>\n");
+			   sb.append("<successfulRecords>").append(fileProcessingSummary.getSuccessfullRecords()).append("<successfulRecords>\n");
 			   sb.append("</FileProcessingSummary>");
 			   
 			   Files.writeString(summaryFile, sb.toString());
