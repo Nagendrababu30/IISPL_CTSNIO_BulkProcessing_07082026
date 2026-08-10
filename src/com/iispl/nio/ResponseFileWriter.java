@@ -3,15 +3,22 @@ package com.iispl.nio;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import com.iispl.dao.FileProcessingDAO;
+import com.iispl.dao.FileProcessingDAOImpl;
 import com.iispl.model.FileProcessingSummary;
 import com.iispl.model.TransactionRequest;
 import com.iispl.model.TransactionResult;
+import com.iispl.service.TransactionService;
+import com.iispl.service.TransactionServiceImpl;
 
 public class ResponseFileWriter {
 
 	Path outputFolder;
 	Path rejectedFolder;
 	String fileName;
+	TransactionService transactionService = new TransactionServiceImpl();
+	FileProcessingDAO fileProcessingDAO = new FileProcessingDAOImpl();
 
 	public ResponseFileWriter(Path outputFolder, Path rejectedFolder, String fileName) {
 		this.outputFolder = outputFolder;
@@ -85,6 +92,8 @@ public class ResponseFileWriter {
 			xml.append("</Transaction>");
 
 			Files.writeString(responseFile, xml.toString());
+			
+			transactionService.saveTransaction(transactionRequest, transactionResult);
 
 		}
 
@@ -138,11 +147,12 @@ public class ResponseFileWriter {
 		xml.append("</Transaction>");
 
 		Files.writeString(rejectedFile, xml.toString());
+		transactionService.saveTransaction(transactionRequest, transactionResult);
 	}
 
 	public void writeFileSummary(FileProcessingSummary fileProcessingSummary) {
 		try {
-			   Path summaryFile = outputFolder.resolve("SUMMARY_" + fileName +".xml");
+			   Path summaryFile = outputFolder.resolve("SUMMARY_" + fileName);
 			   
 			   fileProcessingSummary.setFileName(summaryFile);
 			   
@@ -156,6 +166,8 @@ public class ResponseFileWriter {
 			   sb.append("</FileProcessingSummary>");
 			   
 			   Files.writeString(summaryFile, sb.toString());
+			   fileProcessingDAO.saveFileProcessingSummary(fileProcessingSummary);
+			   
 			  }catch (IOException e) {
 			   e.printStackTrace();
 			   
