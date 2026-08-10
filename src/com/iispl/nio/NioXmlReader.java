@@ -27,6 +27,11 @@ public class NioXmlReader {
 	static FileProcessingSummary summary;
 
 	TransactionService txnService = new TransactionServiceImpl();
+	ResponseFileWriter fileWriter = null;
+	
+	public NioXmlReader(ResponseFileWriter fileWriter) {
+		this.fileWriter = fileWriter;
+	}
 
 	public FileProcessingSummary parseXml(Path path) throws IOException, XMLStreamException {
 
@@ -102,16 +107,19 @@ public class NioXmlReader {
 
 			// end tags 
 			else if (event == XMLStreamConstants.END_ELEMENT) {
-				totalTransactions++;
+				
 
 				// </transaction> if transaction end tag counting success failure txns
 				if ("transaction".equals(reader.getLocalName())) {
-
+					totalTransactions++;
+					
 					TransactionResult txnResult = txnService.validate(transaction);
 					System.out.println(transaction);
 						if(txnResult.getStatus().equals(TransactionStatus.SUCCESS)) {
+							fileWriter.writeSuccessTransaction(transaction, txnResult);
 							successTransactions++;
 						}else {
+							fileWriter.writeFailedTransaction(transaction, txnResult);
 							failedTransactions++;
 						}
 

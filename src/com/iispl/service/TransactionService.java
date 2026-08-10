@@ -7,8 +7,6 @@ import com.iispl.model.TransactionResult;
 import com.iispl.nio.NioXmlReader;
 
 public interface TransactionService {
-	
-	public void processTransaction(TransactionRequest request);
 
 	public TransactionResult validate(TransactionRequest request);
 	

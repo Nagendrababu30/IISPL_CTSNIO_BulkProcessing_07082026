@@ -6,7 +6,7 @@ public class TransactionIdValidation implements TransactionValidator {
 
 	@Override
 	public boolean validate(TransactionRequest transactionRequest) {
-		if(transactionRequest.getTransactionId().equals(null)) {
+		if(transactionRequest.getTransactionId().equals("")) {
 			return false;
 		}
 		else {

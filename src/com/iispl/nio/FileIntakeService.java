@@ -21,7 +21,7 @@ public class FileIntakeService {
 	private Path outputFolder = Paths.get("data", "output");
 	private Path archiveFolder = Paths.get("data", "archive");
 	private Path rejectedFolder = Paths.get("data", "rejected");
-	NioXmlReader nioXmlReader = new NioXmlReader();
+	NioXmlReader nioXmlReader = null;
 	ResponseFileWriter fileWriter = null;
 	ArchiveService archiveService = new ArchiveService();
 
@@ -48,16 +48,19 @@ public class FileIntakeService {
 			DirectoryStream<Path> stream = Files.newDirectoryStream(incomingFolder, "*.xml");
 
 			for (Path file : stream) {
+				
+				Path processingFile = null;
 
 				BasicFileAttributes attributes = Files.readAttributes(file, BasicFileAttributes.class);
 
 				try {
 					if (isRegularFile(attributes) && isValidFileName(file.getFileName().toString())) {
 
-						Path processingFile = moveFileToProcessing(file);
+						processingFile = moveFileToProcessing(file);
 						fileWriter = new ResponseFileWriter(outputFolder, rejectedFolder, file.getFileName().toString()) ;
 
 						System.out.println("Processing file: " + processingFile);
+						nioXmlReader = new NioXmlReader(fileWriter);
 
 						FileProcessingSummary fileProcessingSummary = nioXmlReader.parseXml(processingFile);
 						fileWriter.writeFileSummary(fileProcessingSummary);
@@ -69,7 +72,7 @@ public class FileIntakeService {
 					e.printStackTrace();
 				}
 				
-				archiveService.moveFileToArchive(file, archiveFolder, processingFolder);
+				archiveService.moveFileToArchive(processingFile, archiveFolder, processingFolder);
 
 			}
 
@@ -83,7 +86,7 @@ public class FileIntakeService {
 	}
 
 	private boolean isValidFileName(String fileName) throws InvalidFileNameException {
-		String regex = "^TXN_CORP\\d{3}_\\d{8}_\\d{3}.xml";
+		String regex = "^TXN_CORP\\d{3}_\\d{8}_\\d{3}\\.xml$";
 
 		if (fileName.matches(regex)) {
 			return true;

@@ -46,11 +46,6 @@ public class TransactionServiceImpl implements TransactionService {
 		transactionValidationRules.add(new TransactionTypeValidation());
 	}
 
-	@Override
-	public void processTransaction(TransactionRequest request) {
-		TransactionResult transactionResult = validate(request);
-		
-	}
 
 	@Override
 	public TransactionResult validate(TransactionRequest request) {
@@ -82,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 			
 			return transactionResult;
 			
-		} else if(fromAccount == 2) {
+		} else if(toAccount == 2) {
 			transactionResult.setRemarks("From Account should be active.");
 			transactionResult.setStatus(TransactionStatus.FAILED);
 			
@@ -111,7 +106,7 @@ public class TransactionServiceImpl implements TransactionService {
 					transactionResult.setRemarks("Invalid transaction type.");
 					transactionResult.setStatus(TransactionStatus.FAILED);
 				}
-				
+				return transactionResult;
 			}
 		}
 		
@@ -141,8 +136,8 @@ public class TransactionServiceImpl implements TransactionService {
 		Account account = accountDAO.getAccountByNumber(accountNumber);
 		BigDecimal newAmount = account.getAvailableBalance().add(amount);
 		account.setAvailableBalance(newAmount);
-		accountDAO.updateBalance(accountNumber, newAmount);
-		return true;
+		return accountDAO.updateBalance(accountNumber, newAmount);
+		
 	}
 	
 	private int validateAccount(String accountNumber) {
@@ -158,6 +153,7 @@ public class TransactionServiceImpl implements TransactionService {
 				} else {
 					return 2;
 				}
+				
 			}
 		}
 		

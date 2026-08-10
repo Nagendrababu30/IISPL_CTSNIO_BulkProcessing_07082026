@@ -3,6 +3,8 @@ package com.iispl.nio;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 
 import com.iispl.dao.FileProcessingDAO;
 import com.iispl.dao.FileProcessingDAOImpl;
@@ -24,6 +26,18 @@ public class ResponseFileWriter {
 		this.outputFolder = outputFolder;
 		this.rejectedFolder = rejectedFolder;
 		this.fileName = fileName;
+		
+		try {
+            Files.createDirectories(outputFolder);
+            Files.createDirectories(rejectedFolder);
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Unable to create response directories", e);
+        }
+	}
+	
+	public ResponseFileWriter() {
+		
 	}
 
 	public void writeSuccessTransaction(TransactionRequest transactionRequest, TransactionResult transactionResult) {
@@ -36,8 +50,8 @@ public class ResponseFileWriter {
 			transactionResult.setSourceFile(responseFile);
 
 			StringBuilder xml = new StringBuilder();
-
-			xml.append("<?xml version=\"1.0\"encoding=\"UTF-8\"?>");
+			
+//			xml.append("<?xml version=\"1.0\"encoding=\"UTF-8\"?>\n");
 
 			xml.append("\n<Transaction>\n");
 
@@ -91,7 +105,10 @@ public class ResponseFileWriter {
 
 			xml.append("</Transaction>");
 
-			Files.writeString(responseFile, xml.toString());
+			Files.writeString(responseFile, xml.toString(),
+					StandardOpenOption.CREATE,
+					StandardOpenOption.TRUNCATE_EXISTING,
+					StandardOpenOption.WRITE);
 			
 			transactionService.saveTransaction(transactionRequest, transactionResult);
 
@@ -113,6 +130,8 @@ public class ResponseFileWriter {
 		transactionResult.setSourceFile(rejectedFile);
 
 		StringBuilder xml = new StringBuilder();
+		
+//		xml.append("<?xml version=\"1.0\"encoding=\"UTF-8\"?>\n");
 
 		xml.append("<Transaction>\n");
 
@@ -149,7 +168,9 @@ public class ResponseFileWriter {
 
 		xml.append("</Transaction>");
 
-		Files.writeString(rejectedFile, xml.toString());
+		Files.writeString(rejectedFile, xml.toString(), StandardOpenOption.CREATE,
+				StandardOpenOption.TRUNCATE_EXISTING,
+				StandardOpenOption.WRITE);
 		transactionService.saveTransaction(transactionRequest, transactionResult);
 	}
 
@@ -165,10 +186,12 @@ public class ResponseFileWriter {
 			   sb.append("<fileName>").append(fileProcessingSummary.getFileName()).append("</fileName>\n");
 			   sb.append("<totalRecords>").append(fileProcessingSummary.getTotalRecords()).append("</totalRecords>\n");
 			   sb.append("<failureRecords>").append(fileProcessingSummary.getFailureRecords()).append("</failureRecords>\n");
-			   sb.append("<successfulRecords>").append(fileProcessingSummary.getSuccessfullRecords()).append("<successfulRecords>\n");
+			   sb.append("<successfulRecords>").append(fileProcessingSummary.getSuccessfullRecords()).append("</successfulRecords>\n");
 			   sb.append("</FileProcessingSummary>");
 			   
-			   Files.writeString(summaryFile, sb.toString());
+			   Files.writeString(summaryFile, sb.toString(), StandardOpenOption.CREATE,
+					   StandardOpenOption.TRUNCATE_EXISTING,
+					   StandardOpenOption.WRITE);
 			   fileProcessingDAO.saveFileProcessingSummary(fileProcessingSummary);
 			   
 			  }catch (IOException e) {

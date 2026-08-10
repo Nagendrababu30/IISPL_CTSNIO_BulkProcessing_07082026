@@ -9,7 +9,7 @@ public class TransactionAmountValidation implements TransactionValidator {
 	@Override
 	public boolean validate(TransactionRequest transactionRequest) {
 		// TODO Auto-generated method stub
-		if(transactionRequest.getTransactionAmount().compareTo(BigDecimal.ZERO)<0) {
+		if((transactionRequest.getTransactionAmount().compareTo(BigDecimal.ZERO)) < 0) {
 			return false;
 		}else {
 			return true;
